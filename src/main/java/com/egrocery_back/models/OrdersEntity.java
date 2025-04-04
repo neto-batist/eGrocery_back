@@ -12,7 +12,6 @@ import java.util.Objects;
 public class OrdersEntity {
     private Integer id;
     private BigDecimal totalPrice;
-    private Object status;
     private Timestamp createdAt;
     private Collection<OrderItemsEntity> orderItemsById;
     private Collection<OrderStatusEntity> orderStatusesById;
@@ -40,16 +39,6 @@ public class OrdersEntity {
     }
 
     @Basic
-    @Column(name = "status", nullable = true)
-    public Object getStatus() {
-        return status;
-    }
-
-    public void setStatus(Object status) {
-        this.status = status;
-    }
-
-    @Basic
     @Column(name = "created_at", nullable = true)
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -64,12 +53,12 @@ public class OrdersEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrdersEntity that = (OrdersEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(status, that.status) && Objects.equals(createdAt, that.createdAt);
+        return Objects.equals(id, that.id) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(createdAt, that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, usersByUserId, totalPrice, status, createdAt);
+        return Objects.hash(id, usersByUserId, totalPrice, orderStatusesById, createdAt);
     }
 
     @OneToMany(mappedBy = "ordersByOrderId")

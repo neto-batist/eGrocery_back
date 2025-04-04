@@ -9,7 +9,9 @@ import java.util.Objects;
 @Table(name = "order_status", schema = "egrocery", catalog = "")
 public class OrderStatusEntity {
     private Integer id;
-    private Object status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status;
     private Timestamp updatedAt;
     private OrdersEntity ordersByOrderId;
 
@@ -27,11 +29,11 @@ public class OrderStatusEntity {
 
     @Basic
     @Column(name = "status", nullable = false)
-    public Object getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -66,5 +68,11 @@ public class OrderStatusEntity {
 
     public void setOrdersByOrderId(OrdersEntity ordersByOrderId) {
         this.ordersByOrderId = ordersByOrderId;
+    }
+
+    public enum Status {
+        PENDING,
+        SHIPPED,
+        DELIVERED
     }
 }
