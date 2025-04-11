@@ -1,4 +1,4 @@
-package com.egrocery_back.repositorys;
+package com.egrocery_back.repositories;
 
 import com.egrocery_back.models.UsersEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

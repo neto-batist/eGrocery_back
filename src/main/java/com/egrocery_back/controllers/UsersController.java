@@ -1,7 +1,7 @@
-package com.egrocery_back.controller;
+package com.egrocery_back.controllers;
 
 import com.egrocery_back.models.UsersEntity;
-import com.egrocery_back.service.UsersService;
+import com.egrocery_back.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

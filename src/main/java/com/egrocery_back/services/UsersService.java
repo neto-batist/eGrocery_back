@@ -1,8 +1,8 @@
-package com.egrocery_back.service;
+package com.egrocery_back.services;
 
 
 import com.egrocery_back.models.UsersEntity;
-import com.egrocery_back.repositorys.UsersRepository;
+import com.egrocery_back.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
