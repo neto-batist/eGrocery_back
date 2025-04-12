@@ -1,6 +1,7 @@
 package com.egrocery_back.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -8,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "categories", schema = "egrocery", catalog = "")
+@Data
 public class CategoriesEntity {
     private Integer id;
     private String name;

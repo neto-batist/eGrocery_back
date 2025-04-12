@@ -3,7 +3,6 @@ package com.egrocery_back.controllers;
 import com.egrocery_back.dto.ProductDTO;
 import com.egrocery_back.dto.ProductFilterDTO;
 import com.egrocery_back.errors.NotFound;
-import com.egrocery_back.models.ProductsEntity;
 import com.egrocery_back.services.ProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

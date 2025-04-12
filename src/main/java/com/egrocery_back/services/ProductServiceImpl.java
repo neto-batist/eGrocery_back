@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
         this.categoryRepository = categoryRepository;
     }
 
-    private ProductsEntity mapToEntity(ProductDTO dto) {
+    public ProductsEntity mapToEntity(ProductDTO dto) {
         ProductsEntity entity = new ProductsEntity();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
         return entity;
     }
 
-    private ProductDTO mapToDTO(ProductsEntity entity) {
+    public ProductDTO mapToDTO(ProductsEntity entity) {
         ProductDTO dto = new ProductDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
