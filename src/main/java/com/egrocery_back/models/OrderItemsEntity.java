@@ -10,7 +10,7 @@ import java.util.Objects;
 public class OrderItemsEntity {
     private Integer id;
     private Integer quantity;
-    private BigDecimal price;
+    private Double price;
     private OrdersEntity ordersByOrderId;
     private ProductsEntity productsByProductId;
 
@@ -37,11 +37,11 @@ public class OrderItemsEntity {
 
     @Basic
     @Column(name = "price", nullable = false, precision = 2)
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
