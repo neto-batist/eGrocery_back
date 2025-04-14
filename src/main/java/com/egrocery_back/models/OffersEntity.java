@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "offers", schema = "egrocery", catalog = "")
 public class OffersEntity {
     private Integer id;
-    private BigDecimal discountPercentage;
+    private Double discountPercentage;
     private Timestamp startDate;
     private Timestamp endDate;
     private ProductsEntity productsByProductId;
@@ -28,11 +28,11 @@ public class OffersEntity {
 
     @Basic
     @Column(name = "discount_percentage", nullable = false, precision = 2)
-    public BigDecimal getDiscountPercentage() {
+    public Double getDiscountPercentage() {
         return discountPercentage;
     }
 
-    public void setDiscountPercentage(BigDecimal discountPercentage) {
+    public void setDiscountPercentage(Double discountPercentage) {
         this.discountPercentage = discountPercentage;
     }
 

@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
 
     // ---------- PRIVATE METHODS ----------
 
-    private OrdersEntity mapToEntity(OrderDTO dto) throws NotFound {
+    public OrdersEntity mapToEntity(OrderDTO dto) throws NotFound {
         OrdersEntity entity = new OrdersEntity();
         entity.setId(dto.getId());
         entity.setTotalPrice(dto.getTotalPrice());
@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
         return entity;
     }
 
-    private OrderDTO mapToDTO(OrdersEntity entity) {
+    public OrderDTO mapToDTO(OrdersEntity entity) {
         OrderDTO dto = new OrderDTO();
         dto.setId(entity.getId());
         dto.setTotalPrice(entity.getTotalPrice());
