@@ -12,6 +12,7 @@ public class FaqsEntity {
     private String question;
     private String answer;
     private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -52,6 +53,16 @@ public class FaqsEntity {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Basic
+    @Column(name = "updated_at", nullable = true)
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
