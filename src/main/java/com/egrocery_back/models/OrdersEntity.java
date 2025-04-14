@@ -11,10 +11,10 @@ import java.util.Objects;
 @Table(name = "orders", schema = "egrocery", catalog = "")
 public class OrdersEntity {
     private Integer id;
-    private BigDecimal totalPrice;
+    private Double totalPrice;
     private Timestamp createdAt;
-    private Collection<OrderItemsEntity> orderItemsById;
-    private Collection<OrderStatusEntity> orderStatusesById;
+    private Collection<OrderItemsEntity> orderItems;
+    private Collection<OrderStatusEntity> orderStatuses;
     private UsersEntity usersByUserId;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,11 @@ public class OrdersEntity {
 
     @Basic
     @Column(name = "total_price", nullable = false, precision = 2)
-    public BigDecimal getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -58,25 +58,25 @@ public class OrdersEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, usersByUserId, totalPrice, orderStatusesById, createdAt);
+        return Objects.hash(id, usersByUserId, totalPrice, orderStatuses, createdAt);
     }
 
     @OneToMany(mappedBy = "ordersByOrderId")
     public Collection<OrderItemsEntity> getOrderItemsById() {
-        return orderItemsById;
+        return orderItems;
     }
 
     public void setOrderItemsById(Collection<OrderItemsEntity> orderItemsById) {
-        this.orderItemsById = orderItemsById;
+        this.orderItems = orderItemsById;
     }
 
     @OneToMany(mappedBy = "ordersByOrderId")
-    public Collection<OrderStatusEntity> getOrderStatusesById() {
-        return orderStatusesById;
+    public Collection<OrderStatusEntity> getOrderStatuses() {
+        return orderStatuses;
     }
 
-    public void setOrderStatusesById(Collection<OrderStatusEntity> orderStatusesById) {
-        this.orderStatusesById = orderStatusesById;
+    public void setOrderStatuses(Collection<OrderStatusEntity> orderStatusesById) {
+        this.orderStatuses = orderStatusesById;
     }
 
     @ManyToOne

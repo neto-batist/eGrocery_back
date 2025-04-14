@@ -27,7 +27,7 @@ public class OrderStatusEntity {
     }
 
 
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     public Status getStatus() {
         return status;
@@ -61,7 +61,7 @@ public class OrderStatusEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = true)
     public OrdersEntity getOrdersByOrderId() {
         return ordersByOrderId;
     }

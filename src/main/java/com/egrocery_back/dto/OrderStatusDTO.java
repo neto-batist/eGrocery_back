@@ -30,4 +30,36 @@ public class OrderStatusDTO {
     @NotBlank(message = "O pedido deve ser obrigatório")
     private OrderDTO order;
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public OrderStatusEntity.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatusEntity.Status status) {
+        this.status = status;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public OrderDTO getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderDTO order) {
+        this.order = order;
+    }
 }
