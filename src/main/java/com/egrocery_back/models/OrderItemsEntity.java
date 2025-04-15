@@ -1,18 +1,32 @@
 package com.egrocery_back.models;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "order_items", schema = "egrocery", catalog = "")
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderItemsEntity {
     private Integer id;
     private Integer quantity;
     private Double price;
     private OrdersEntity ordersByOrderId;
     private ProductsEntity productsByProductId;
+    private Timestamp createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = Timestamp.valueOf(LocalDateTime.now());
+        }
+    }
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -45,17 +59,14 @@ public class OrderItemsEntity {
         this.price = price;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderItemsEntity that = (OrderItemsEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(quantity, that.quantity) && Objects.equals(price, that.price);
+    @Basic
+    @Column(name = "created_at", nullable = false)
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, ordersByOrderId, productsByProductId, quantity, price);
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     @ManyToOne
@@ -76,5 +87,28 @@ public class OrderItemsEntity {
 
     public void setProductsByProductId(ProductsEntity productsByProductId) {
         this.productsByProductId = productsByProductId;
+    }
+
+    // Construtor alternativo (sem ID)
+    public OrderItemsEntity(Integer quantity, Double price, OrdersEntity ordersByOrderId, ProductsEntity productsByProductId) {
+        this.quantity = quantity;
+        this.price = price;
+        this.ordersByOrderId = ordersByOrderId;
+        this.productsByProductId = productsByProductId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderItemsEntity that = (OrderItemsEntity) o;
+        return Objects.equals(id, that.id) &&
+               Objects.equals(quantity, that.quantity) &&
+               Objects.equals(price, that.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, ordersByOrderId, productsByProductId, quantity, price);
     }
 }

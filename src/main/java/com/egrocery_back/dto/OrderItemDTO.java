@@ -1,5 +1,7 @@
 package com.egrocery_back.dto;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -31,6 +33,9 @@ public class OrderItemDTO {
     @JsonProperty("price")
     @NotNull(message = "O preço é obrigatório")
     private Double price;
+
+    @JsonProperty("createdAt")
+    private LocalDateTime createdAt; 
 
     public void setId(Integer id) {
         this.id = id;

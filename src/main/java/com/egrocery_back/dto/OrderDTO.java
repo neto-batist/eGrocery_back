@@ -34,6 +34,17 @@ public class OrderDTO {
     @JsonProperty("total_price")
     private Double totalPrice;
 
+    // Construtor padrão
+    public OrderDTO() {
+    }
+
+    // Construtor que recebe apenas o id
+    public OrderDTO(Integer id) {
+        this.id = id;
+    }
+
+    // Construtores, getters e setters restantes
+
     public Integer getId() {
         return id;
     }
