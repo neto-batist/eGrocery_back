@@ -5,18 +5,16 @@ import com.egrocery_back.dto.OrderFilterDTO;
 import com.egrocery_back.dto.OrderStatusDTO;
 import com.egrocery_back.dto.UserDTO;
 import com.egrocery_back.errors.NotFound;
+import com.egrocery_back.mappers.UserMapper;
 import com.egrocery_back.models.*;
 import com.egrocery_back.repositories.*;
 import com.egrocery_back.specifications.OrderSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -24,15 +22,16 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final UsersRepository userRepository;
     private final OrderStatusRepository orderStatusRepository;
+    private final UserMapper userMapper;
 
     public OrderServiceImpl(OrderRepository orderRepository,
                             UsersRepository userRepository,
                             OrderStatusRepository orderStatusRepository,
-                            OrderItemRepository orderItemRepository,
-                            ProductRepository productRepository) {
+                            UserMapper userMapper) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.orderStatusRepository = orderStatusRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -57,10 +56,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO updateOrder(Integer id, OrderDTO dto) throws NotFound {
         OrdersEntity existing = findOrderById(id);
-
-        existing =  mapToEntity(dto);
+        existing = mapToEntity(dto);
         existing.setId(id);
-
         OrdersEntity updated = orderRepository.save(existing);
         return mapToDTO(updated);
     }
@@ -71,39 +68,38 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.delete(order);
     }
 
-    // ---------- PRIVATE METHODS ----------
-
     public OrdersEntity mapToEntity(OrderDTO dto) throws NotFound {
         OrdersEntity entity = new OrdersEntity();
         entity.setId(dto.getId());
         entity.setTotalPrice(dto.getTotalPrice());
         entity.setCreatedAt(dto.getCreatedAt());
-        entity.setUsersByUserId(getUserEntity(dto.getUser().getId()));
+
+        if (dto.getUser() != null && dto.getUser().getId() != null) {
+            UsersEntity userEntity = getUserEntity(dto.getUser().getId());
+            entity.setUsersByUserId(userEntity);
+        }
 
         if (dto.getStatuses() != null && !dto.getStatuses().isEmpty()) {
             List<OrderStatusEntity> statusEntities = new ArrayList<>();
             for (OrderStatusDTO statusDTO : dto.getStatuses()) {
                 OrderStatusEntity statusEntity = getOrderStatusEntity(statusDTO.getId());
-                statusEntity.setOrdersByOrderId(entity); // Associa o pedido ao status (bidirecional)
+                statusEntity.setOrdersByOrderId(entity);
                 statusEntities.add(statusEntity);
             }
-            entity.setOrderStatuses(statusEntities); // Setar manualmente a coleção
+            entity.setOrderStatuses(statusEntities);
         }
 
         return entity;
     }
 
-    public OrderDTO mapToDTO(OrdersEntity entity) {
+    OrderDTO mapToDTO(OrdersEntity entity) {
         OrderDTO dto = new OrderDTO();
         dto.setId(entity.getId());
         dto.setTotalPrice(entity.getTotalPrice());
         dto.setCreatedAt(entity.getCreatedAt());
 
-        //lembrar de mudar para o map de usuario quando criar
         if (entity.getUsersByUserId() != null) {
-            dto.setUser(new UserDTO());
-            dto.getUser().setId(entity.getUsersByUserId().getId());
-            dto.getUser().setName(entity.getUsersByUserId().getName());
+            dto.setUser(userMapper.toDTO(entity.getUsersByUserId()));
         }
 
         if (entity.getOrderStatuses() != null && !entity.getOrderStatuses().isEmpty()) {
@@ -118,13 +114,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private UsersEntity getUserEntity(Integer userId) throws NotFound {
-        if (userId == null) return null;
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFound("Usuário", userId));
     }
 
     private OrderStatusEntity getOrderStatusEntity(Integer statusId) throws NotFound {
-        if (statusId == null) return null;
         return orderStatusRepository.findById(statusId)
                 .orElseThrow(() -> new NotFound("Status", statusId));
     }

@@ -45,6 +45,9 @@ public class UserDTO {
     @JsonProperty("created_at")
     private Timestamp createdAt;
 
+    @JsonProperty("updated_at")
+    private Timestamp updatedAt;
+
     @JsonProperty("orders")
     private List<OrderDTO> orders;
 
@@ -106,6 +109,14 @@ public class UserDTO {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public List<OrderDTO> getOrders() {

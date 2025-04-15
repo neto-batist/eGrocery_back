@@ -16,6 +16,7 @@ public class UsersEntity {
     private String phone;
     private String address;
     private Timestamp createdAt;
+    private Timestamp updatedAt;
     private Collection<CartEntity> cartsById;
     private Collection<OrdersEntity> ordersById;
 
@@ -88,6 +89,16 @@ public class UsersEntity {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Basic
+    @Column(name = "updated_at", nullable = true)
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override

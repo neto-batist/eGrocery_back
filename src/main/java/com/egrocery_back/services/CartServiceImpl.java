@@ -32,7 +32,7 @@ public class CartServiceImpl implements CartService {
     }
 
     // Mapeia o DTO para a entidade CartEntity
-    private CartEntity mapToEntity(CartDTO dto) {
+    public CartEntity mapToEntity(CartDTO dto) {
         CartEntity entity = new CartEntity();
         entity.setId(dto.getId());
         entity.setQuantity(dto.getQuantity());
@@ -60,7 +60,7 @@ public class CartServiceImpl implements CartService {
     }
 
     // Mapeia a entidade CartEntity para o DTO
-    private CartDTO mapToDTO(CartEntity entity) {
+    public CartDTO mapToDTO(CartEntity entity) {
         CartDTO dto = new CartDTO();
         dto.setId(entity.getId());
         dto.setQuantity(entity.getQuantity());
