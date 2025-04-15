@@ -1,7 +1,9 @@
 package com.egrocery_back.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -11,6 +13,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "products", schema = "egrocery", catalog = "")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductsEntity {
     private Integer id;
     private String name;
