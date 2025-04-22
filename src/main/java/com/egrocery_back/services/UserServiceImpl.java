@@ -38,6 +38,9 @@ public class UserServiceImpl implements UserService {
     public UserDTO saveUser(UserDTO dto) throws NotFound {
         UsersEntity user = mapToEntity(dto);
         user.setCreatedAt(Timestamp.from(Instant.now()));
+        if (user.getId() == 0) {
+            user.setId(null);
+        }
         UsersEntity saved = userRepository.save(user);
         return mapToDTO(saved);
     }
