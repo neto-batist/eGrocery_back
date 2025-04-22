@@ -4,6 +4,7 @@ import com.egrocery_back.dto.OrderDTO;
 import com.egrocery_back.dto.UserDTO;
 import com.egrocery_back.dto.UserFilterDTO;
 import com.egrocery_back.errors.NotFound;
+import com.egrocery_back.errors.WrongPassword;
 import com.egrocery_back.models.OrdersEntity;
 import com.egrocery_back.models.UsersEntity;
 import com.egrocery_back.repositories.UsersRepository;
@@ -16,6 +17,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,6 +95,17 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    @Override
+    public UserDTO login(UserFilterDTO filterDTO, UserDTO userDTO) throws NotFound, WrongPassword {
+        UsersEntity userEntity = findUserByEmail(userDTO.getEmail());
+
+        if (! userEntity.getPasswordHash().equals(userDTO.getPassword()) ){
+               throw new WrongPassword();
+        }
+
+        return mapToDTO(userEntity);
+    }
+
     public UsersEntity mapToEntity(UserDTO dto) throws NotFound {
         UsersEntity entity = new UsersEntity();
 
@@ -160,6 +173,10 @@ public class UserServiceImpl implements UserService {
     private UsersEntity findUserById(Integer id) throws NotFound {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFound("Usuário", id));
+    }
+    private UsersEntity findUserByEmail(String  email) throws NotFound {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFound("Usuário with email: "+email, 0));
     }
 
 }

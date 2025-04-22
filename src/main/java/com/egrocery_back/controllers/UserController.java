@@ -3,6 +3,7 @@ package com.egrocery_back.controllers;
 import com.egrocery_back.dto.UserDTO;
 import com.egrocery_back.dto.UserFilterDTO;
 import com.egrocery_back.errors.NotFound;
+import com.egrocery_back.errors.WrongPassword;
 import com.egrocery_back.services.UserService;
 import com.egrocery_back.services.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -63,5 +64,13 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id) throws NotFound {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> loginUser(
+            @Valid UserFilterDTO filterDTO,
+            @Valid @RequestBody UserDTO userDTO) throws NotFound, WrongPassword {
+        UserDTO user = userService.login(filterDTO, userDTO);
+        return ResponseEntity.ok(user);
     }
 }
