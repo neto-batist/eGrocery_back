@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     public UserDTO saveUser(UserDTO dto) throws NotFound {
         UsersEntity user = mapToEntity(dto);
         user.setCreatedAt(Timestamp.from(Instant.now()));
-        if (user.getId() == 0) {
-            user.setId(null);
+        if (user.getId() == null || user.getId() == 0) {
+        user.setId(null);
         }
         UsersEntity saved = userRepository.save(user);
         return mapToDTO(saved);
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUser(Integer id, UserDTO dto) throws NotFound {
         UsersEntity existing = findUserById(id);
 
-        // Atualiza apenas os campos que podem mudar
+        //atualiza apenas os campos que podem mudar
         if (dto.getName() != null) existing.setName(dto.getName());
         if (dto.getEmail() != null) existing.setEmail(dto.getEmail());
         if (dto.getPassword() != null) existing.setPasswordHash(dto.getPassword());
