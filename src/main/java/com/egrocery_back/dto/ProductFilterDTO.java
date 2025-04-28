@@ -12,7 +12,8 @@ public class ProductFilterDTO {
 
     private String name;
 
-    private String category;
+     // Alterado para Integer para filtrar pelo ID da categoria
+     private Integer categoryId;
 
     @DecimalMin(value = "0.0", inclusive = true, message = "Preço mínimo não pode ser negativo")
     private BigDecimal minPrice;
@@ -36,12 +37,12 @@ public class ProductFilterDTO {
         this.name = name;
     }
 
-    public String getCategory() {
-        return category;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public BigDecimal getMinPrice() {
