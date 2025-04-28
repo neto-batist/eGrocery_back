@@ -1,6 +1,13 @@
 package com.egrocery_back.specifications;
 
+import com.egrocery_back.models.CategoriesEntity;
 import com.egrocery_back.models.ProductsEntity;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Join;
+
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
@@ -14,11 +21,15 @@ public class ProductSpecification {
                         : cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%");
     }
 
-    public static Specification<ProductsEntity> categoryEquals(String category) {
-        return (root, query, cb) ->
-                category == null || category.isEmpty()
-                        ? null
-                        : cb.equal(root.get("category"), category);
+    public static Specification<ProductsEntity> categoryEquals(Integer categoryId) {
+        return (Root<ProductsEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+            if (categoryId == null) {
+                return cb.conjunction();
+            }
+            // Join com a entidade Categories para comparar o id da categoria
+            Join<ProductsEntity, CategoriesEntity> categoryJoin = root.join("categoriesByCategoryId");
+            return cb.equal(categoryJoin.get("id"), categoryId);
+        };
     }
 
     public static Specification<ProductsEntity> priceGreaterThanOrEqual(BigDecimal minPrice) {

@@ -71,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
     public Page<ProductDTO> getAllProducts(ProductFilterDTO filter, Pageable pageable) {
         Specification<ProductsEntity> spec = Specification
                 .where(ProductSpecification.nameContains(filter.getName()))
-                .and(ProductSpecification.categoryEquals(filter.getCategory()))
+                .and(ProductSpecification.categoryEquals(filter.getCategoryId()))
                 .and(ProductSpecification.priceGreaterThanOrEqual(filter.getMinPrice()))
                 .and(ProductSpecification.priceLessThanOrEqual(filter.getMaxPrice()));
 
@@ -91,7 +91,6 @@ public class ProductServiceImpl implements ProductService {
         ProductsEntity existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new NotFound("Produto", id));
 
-        // Atualiza manualmente os campos
         existingProduct.setName(productDTO.getName());
         existingProduct.setDescription(productDTO.getDescription());
         existingProduct.setPrice(productDTO.getPrice());
